@@ -1,5 +1,5 @@
 from tplinkcloud import TPLinkDeviceManager
-import os, sys, time
+import os, sys, time, signal
 import RPi.GPIO as GPIO
 
 
@@ -25,6 +25,8 @@ oldIsOpen = None
 def cleanupLights(signal, frame):
     GPIO.cleanup()
     sys.exit(0)
+
+signal.signal(signal.SIGINT, cleanupLights)
 
 while True:
     oldIsOpen = isOpen
