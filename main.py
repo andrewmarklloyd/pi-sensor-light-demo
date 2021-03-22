@@ -1,35 +1,38 @@
 from tplinkcloud import TPLinkDeviceManager
+import os, sys, time
+import RPi.GPIO as GPIO
 
-username='example@email.com'
-password='secure'
 
-device_manager = TPLinkDeviceManager(username, password)
+tplink_user = os.environ.get('TPLINK_USERNAME')
+tplink_pass = os.environ.get('TPLINK_PASSWORD')
+device_name = os.environ.get('DEVICE_NAME')
 
-devices = device_manager.get_devices()
-if devices:
-  print(f'Found {len(devices)} devices')
-  for device in devices:
-    print(f'{device.model_type.name} device called {device.get_alias()}')
-
-device_name = "My Smart Plug"
+device_manager = TPLinkDeviceManager(tplink_user, tplink_pass)
 device = device_manager.find_device(device_name)
-if device:
-  print(f'Found {device.model_type.name} device: {device.get_alias()}')
-  device.toggle()
-else:  
-  print(f'Could not find {device_name}')
+if device is None:
+  print(f'Could not find device {device_name}')
+  exit(1)
 
-import RPi.GPIO as GPIO #import the GPIO library
-import time
 
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(8, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setmode(GPIO.BCM)
+DOOR_SENSOR_PIN = 18
+GPIO.setup(DOOR_SENSOR_PIN, GPIO.IN, pull_up_down = GPIO.PUD_UP)
 
+isOpen = None
+oldIsOpen = None
+
+# Clean up when thef user exits with keyboard interrupt
+def cleanupLights(signal, frame):
+    GPIO.cleanup()
+    sys.exit(0)
 
 while True:
-    if GPIO.input(8):
-       print("Door is open")
-       time.sleep(2)
-    if GPIO.input(8) == False:
-       print("Door is closed")
-       time.sleep(2)
+    oldIsOpen = isOpen
+    isOpen = GPIO.input(DOOR_SENSOR_PIN)
+    if (isOpen and (isOpen != oldIsOpen)):
+        print("open")
+        device.power_on()
+    elif (isOpen != oldIsOpen):
+        print("closed")
+        device.power_off()
+    time.sleep(1)
