@@ -22,4 +22,5 @@ sed "s~{{.TPLINK_USERNAME}}~${TPLINK_USERNAME}~" run.sh.tmpl \
     | sed "s~{{.TPLINK_PASSWORD}}~${TPLINK_PASSWORD}~" \
     | sed "s~{{.DEVICE_NAME}}~${DEVICE_NAME}~" > run.sh
 
+chmod +x run.sh
 rm run.sh.tmpl
