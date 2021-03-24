@@ -1,11 +1,21 @@
 #!/bin/bash
 
+bootDir="/boot"
+initFile="${bootDir}/init-config.txt"
 
-if [[ -f /boot/config.txt ]]; then
+if [[ -f ${initFile} ]]; then
+    baseUrl="https://raw.githubusercontent.com/andrewmarklloyd/pi-sensor-light-demo/master"
     # root user?
     apt-get update
     apt-get install python3-pip -y
     pip3 install tplink-cloud-api
     pip3 install RPi.GPIO
-    rm /boot/config.txt
+
+    curl -o /home/pi/main.py -s -H 'Cache-Control: no-cache' "${baseUrl}/main.py"
+
+    sudo mv ${bootDir}/pi-sensor-light-demo.service /etc/systemd/system/
+    sudo systemctl enable pi-sensor-light-demo.service
+    sudo systemctl start pi-sensor-light-demo.service
+
+    rm ${initFile}
 fi

@@ -1,0 +1,17 @@
+[Unit]
+Description=Pi Sensor Light Demo
+After=network.target
+
+[Service]
+ExecStart=python3 main.py
+WorkingDirectory=/home/pi/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+Environment=TPLINK_USERNAME={{.TPLINK_USERNAME}}
+Environment=TPLINK_PASSWORD={{.TPLINK_PASSWORD}}
+Environment=DEVICE_NAME={{.DEVICE_NAME}}
+
+[Install]
+WantedBy=multi-user.target
