@@ -8,5 +8,4 @@ if [[ -f /boot/config.txt ]]; then
     pip3 install tplink-cloud-api
     pip3 install RPi.GPIO
     rm /boot/config.txt
-done
-
+fi
