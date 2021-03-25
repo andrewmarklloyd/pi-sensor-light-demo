@@ -1,21 +1,24 @@
 #!/bin/bash
 
+log() {
+    echo ${1} >> /home/pi/rc_local.log
+}
+
 bootDir="/boot"
 initFile="${bootDir}/init-config.txt"
+log "$(date) rc.local called"
 
 if [[ -f ${initFile} ]]; then
-    baseUrl="https://raw.githubusercontent.com/andrewmarklloyd/pi-sensor-light-demo/master"
-    # root user?
-    apt-get update
-    apt-get install python3-pip -y
-    pip3 install tplink-cloud-api
-    pip3 install RPi.GPIO
-
-    curl -o /home/pi/main.py -s -H 'Cache-Control: no-cache' "${baseUrl}/main.py"
-
-    sudo mv ${bootDir}/pi-sensor-light-demo.service /etc/systemd/system/
-    sudo systemctl enable pi-sensor-light-demo.service
-    sudo systemctl start pi-sensor-light-demo.service
-
+    log "Moving systemd unit file to dir"
+    mv ${bootDir}/pi-sensor-light-demo.service /etc/systemd/system/
+    log "Moving start-app script to /home/pi"
+    mv ${bootDir}/start-app.sh /home/pi/
+    log "enabling systemd unit"
+    systemctl enable pi-sensor-light-demo.service
+    log "starting systemd unit"
+    systemctl start pi-sensor-light-demo.service
+    log "removing file ${initFile}"
     rm ${initFile}
+else
+    log "File not found: ${initFile}"
 fi

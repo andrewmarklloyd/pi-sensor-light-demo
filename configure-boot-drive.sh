@@ -13,8 +13,10 @@ sed "s~{{.TPLINK_USERNAME}}~${TPLINK_USERNAME}~" pi-sensor-light-demo.service.tm
     | sed "s~{{.DEVICE_NAME}}~${DEVICE_NAME}~" > ${bootDir}/pi-sensor-light-demo.service
 
 cp rc.local ${bootDir}
+cp start-app.sh ${bootDir}
 
 touch ${bootDir}/init-config.txt
+touch ${bootDir}/rc_restart.txt
 
 sed -i '' '/exit 0/i\
 # user edited\
