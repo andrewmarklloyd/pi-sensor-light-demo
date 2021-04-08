@@ -10,9 +10,9 @@ log "$(date) rc.local called"
 
 if [[ -f ${initFile} ]]; then
     cd /home/pi
-    file=node-v12.9.1-linux-armv6l
+    file=node-v11.15.0-linux-armv6l
     log "Downloading nodejs"
-    wget https://unofficial-builds.nodejs.org/download/release/v12.9.1/${file}.tar.xz
+    wget https://nodejs.org/dist/v11.15.0/${file}.tar.xz
     tar -xvf ${file}.tar.xz
     sudo cp -R ${file}/* /usr/local/
     rm -rf "${file}*"
