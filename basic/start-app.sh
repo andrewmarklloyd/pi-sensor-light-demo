@@ -5,6 +5,8 @@ log() {
     echo "${1}" >> /home/pi/.start-app.log
 }
 
+log "Running script as $(whoami)"
+
 if [[ ! -d /home/pi/Adafruit-WebIDE ]]; then
     cd /home/pi
     log "Updating apt-get"
