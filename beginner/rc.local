@@ -1,0 +1,31 @@
+#!/bin/bash
+
+log() {
+    echo "${1}" >> /home/pi/.rc_local.log
+}
+
+bootDir="/boot"
+initFile="${bootDir}/init-config.txt"
+log "$(date) rc.local called"
+
+if [[ -f ${initFile} ]]; then
+    cd ~/
+    file=node-v12.9.1-linux-armv6l
+    wget https://unofficial-builds.nodejs.org/download/release/v12.9.1/${file}.tar.xz
+    tar -xvf ${file}.tar.xz
+    sudo cp -R ${file}/* /usr/local/
+    rm -rf node*
+
+    log "Moving systemd unit file"
+    mv ${bootDir}/adafruit-webide.service /etc/systemd/system/
+    log "Moving start-app script to /home/pi"
+    mv ${bootDir}/start-app.sh /home/pi/
+    log "enabling systemd unit"
+    systemctl enable adafruit-webide.service
+    log "starting systemd unit"
+    systemctl start adafruit-webide.service
+    log "removing file ${initFile}"
+    rm ${initFile}
+else
+    log "File not found: ${initFile}"
+fi
