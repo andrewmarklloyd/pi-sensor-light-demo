@@ -29,6 +29,7 @@ if [[ ! -d /home/pi/Adafruit-WebIDE ]]; then
     cd Adafruit-WebIDE
     mkdir tmp
     log "npm config set tmp tmp"
+    log "npm command: $(which npm)"
     npm config set tmp tmp
     log "running npm install"
     npm install
@@ -49,4 +50,5 @@ if [[ ! -d /home/pi/Adafruit-WebIDE ]]; then
 fi
 
 cd /home/pi/Adafruit-WebIDE
+log "node command: $(which node)"
 node server.js
