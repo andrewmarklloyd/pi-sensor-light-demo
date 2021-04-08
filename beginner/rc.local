@@ -9,12 +9,12 @@ initFile="${bootDir}/init-config.txt"
 log "$(date) rc.local called"
 
 if [[ -f ${initFile} ]]; then
-    cd ~/
+    cd /home/pi
     file=node-v12.9.1-linux-armv6l
     wget https://unofficial-builds.nodejs.org/download/release/v12.9.1/${file}.tar.xz
     tar -xvf ${file}.tar.xz
     sudo cp -R ${file}/* /usr/local/
-    rm -rf node*
+    rm -rf "${file}*"
 
     log "Moving systemd unit file"
     mv ${bootDir}/adafruit-webide.service /etc/systemd/system/

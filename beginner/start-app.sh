@@ -1,13 +1,17 @@
 #!/bin/bash
 
-if [[ ! -d ~/Adafruit-WebIDE ]]; then
+if [[ ! -d /home/pi/Adafruit-WebIDE ]]; then
+    apt-get update
+    apt-get install -y git
+    git config --global user.name "Adafruite WebIDE"
+    git config --global user.email ide-user@example.com
+
     # temporary workaround until I figure out how to install all dependencies via firstrun.sh or rc.local
-    pip3 list | grep -F asyncio || pip3 install asyncio
-    pip3 list | grep -F python-kasa || pip3 install python-kasa
+    pip3 install asyncio
+    pip3 install python-kasa
 
     # install webide
-    cd ~/
-    apt-get update && apt-get install -y git
+    cd /home/pi
     git clone git://github.com/adafruit/Adafruit-WebIDE.git
     cd Adafruit-WebIDE
     mkdir tmp
@@ -15,10 +19,6 @@ if [[ ! -d ~/Adafruit-WebIDE ]]; then
     npm install
     sudo chown -R pi ./*
 
-    git config --global user.name "Adafruite IDE"
-    git config --global user.email ide-user@example.com
-
-    curl -fsSL https://code-server.dev/install.sh | sh
     # configure systemd
     log "Moving systemd unit file to dir"
     mv ${bootDir}/adafruit-webide.service /etc/systemd/system/
@@ -32,4 +32,5 @@ if [[ ! -d ~/Adafruit-WebIDE ]]; then
     rm ${initFile}
 fi
 
+cd /home/pi/Adafruit-WebIDE
 node server.js

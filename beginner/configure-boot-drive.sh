@@ -5,6 +5,7 @@ bootDir="/Volumes/boot"
 
 cp rc.local ${bootDir}
 cp start-app.sh ${bootDir}
+cp adafruit-webide.service ${bootDir}
 
 touch ${bootDir}/init-config.txt
 
