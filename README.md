@@ -5,10 +5,7 @@ This tool controls a TP-Link smart outlet based on the status of a magnetic sens
 ---
 ## Installation
 
-The script requires an account at https://www.tplinkcloud.com and the following environment variables set: 
-- `TPLINK_USERNAME`: Account username
-- `TPLINK_PASSWORD`: Account password
-- `DEVICE_NAME`: Name of the outlet you want to control
+### Basic Configuration
 
 Follow the setup instructions for the smart plug to get it connected to your wifi. Ensure your Raspberry Pi is connected to your wifi. The tool is configured to use [GPIO 18](https://pinout.xyz/pinout/pin12_gpio18) and a ground wire.
 
