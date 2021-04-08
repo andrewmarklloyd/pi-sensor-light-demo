@@ -1,22 +1,36 @@
 #!/bin/bash
 
+
+log() {
+    echo "${1}" >> /home/pi/.start-app.log
+}
+
 if [[ ! -d /home/pi/Adafruit-WebIDE ]]; then
-    apt-get update
-    apt-get install -y git
+    cd /home/pi
+    log "Updating apt-get"
+    sudo apt-get update
+    log "Installing git"
+    sudo apt-get install -y git python3-pip
     git config --global user.name "Adafruite WebIDE"
     git config --global user.email ide-user@example.com
 
     # temporary workaround until I figure out how to install all dependencies via firstrun.sh or rc.local
+    log "Installing asyncio"
     pip3 install asyncio
+    log "Installing python-kasa"
     pip3 install python-kasa
 
     # install webide
     cd /home/pi
+    log "Cloning Adafruit-WebIDE and installing"
     git clone git://github.com/adafruit/Adafruit-WebIDE.git
     cd Adafruit-WebIDE
     mkdir tmp
+    log "npm config set tmp tmp"
     npm config set tmp tmp
+    log "running npm install"
     npm install
+    log "setting pi ownership of directory"
     sudo chown -R pi ./*
 
     # configure systemd

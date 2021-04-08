@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 ExecStart=/home/pi/start-app.sh
-WorkingDirectory=/home/pi/Adafruit-WebIDE
+WorkingDirectory=/home/pi
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
