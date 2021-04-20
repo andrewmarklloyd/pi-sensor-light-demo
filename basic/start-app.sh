@@ -2,12 +2,31 @@
 
 
 log() {
-    echo "${1}" >> /home/pi/.start-app.log
+    echo "$(date) - ${1}" >> /home/pi/.start-app.log
 }
 
 log "Running script as $(whoami)"
 
+node=$(which node)
+if [[ -z ${node} ]]; then
+    log "node executable not found, installing now"
+    cd /home/pi
+    file=node-v11.15.0-linux-armv6l
+    log "Downloading nodejs"
+    wget "https://nodejs.org/dist/v11.15.0/${file}.tar.xz"
+    if [[ ! -f "${file}.tar.xz" ]]; then
+        log "File ${file}.tar.xz not found!"
+        exit 1
+    fi
+    tar -xvf ${file}.tar.xz
+    sudo cp -R ${file}/* /usr/local/
+    rm -rf ${file}*
+else
+    log "${node} executable found, continuing to run application"
+fi
+
 if [[ ! -d /home/pi/Adafruit-WebIDE ]]; then
+    log "Adafruit-WebIDE application directory not found, installing now"
     cd /home/pi
     log "Updating apt-get"
     sudo apt-get update
@@ -16,18 +35,12 @@ if [[ ! -d /home/pi/Adafruit-WebIDE ]]; then
     git config --global user.name "Adafruite WebIDE"
     git config --global user.email ide-user@example.com
 
-    # temporary workaround until I figure out how to install all dependencies via firstrun.sh or rc.local
-    log "Installing asyncio"
-    pip3 install asyncio
-    log "Installing python-kasa"
-    pip3 install python-kasa
-
     # install webide
     cd /home/pi
     log "Cloning Adafruit-WebIDE and installing"
     git clone git://github.com/adafruit/Adafruit-WebIDE.git
     cd Adafruit-WebIDE
-    mkdir tmp
+    mkdir -p tmp
     log "npm config set tmp tmp"
     log "npm command: $(which npm)"
     npm config set tmp tmp
@@ -35,18 +48,14 @@ if [[ ! -d /home/pi/Adafruit-WebIDE ]]; then
     npm install
     log "setting pi ownership of directory"
     sudo chown -R pi ./*
+fi
 
-    # configure systemd
-    log "Moving systemd unit file to dir"
-    mv ${bootDir}/adafruit-webide.service /etc/systemd/system/
-    log "Moving start-app script to /home/pi"
-    mv ${bootDir}/start-app.sh /home/pi/
-    log "enabling systemd unit"
-    systemctl enable adafruit-webide.service
-    log "starting systemd unit"
-    systemctl start adafruit-webide.service
-    log "removing file ${initFile}"
-    rm ${initFile}
+pip3List=$(pip3 list)
+if [[ -z $(echo ${pip3List} | grep -F asyncio) || -z $(echo ${pip3List} | grep -F python-kasa) ]]; then
+    log "Installing asyncio"
+    pip3 install asyncio
+    log "Installing python-kasa"
+    pip3 install python-kasa
 fi
 
 cd /home/pi/Adafruit-WebIDE

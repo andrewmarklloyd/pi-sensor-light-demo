@@ -6,17 +6,9 @@ log() {
 
 bootDir="/boot"
 initFile="${bootDir}/init-config.txt"
-log "$(date) rc.local called"
+log "$(date) - rc.local called"
 
 if [[ -f ${initFile} ]]; then
-    cd /home/pi
-    file=node-v11.15.0-linux-armv6l
-    log "Downloading nodejs"
-    wget https://nodejs.org/dist/v11.15.0/${file}.tar.xz
-    tar -xvf ${file}.tar.xz
-    sudo cp -R ${file}/* /usr/local/
-    rm -rf "${file}*"
-
     log "Moving systemd unit file"
     mv ${bootDir}/adafruit-webide.service /etc/systemd/system/
     log "Moving start-app script to /home/pi"
@@ -28,5 +20,5 @@ if [[ -f ${initFile} ]]; then
     log "removing file ${initFile}"
     rm ${initFile}
 else
-    log "File not found: ${initFile}"
+    log "File not found: ${initFile}, rc.local initialization already complete."
 fi
