@@ -31,7 +31,7 @@ Writing Operating System to the SD card
 - At this point the SD card is fully configured and can be safely ejected
 
 Powering up the Pi
-- Insert the SD card into the Pi and power it up. After a few minutes the installation will complete and you can navigate to http://192.168.0.115:3000 in your web browser to view the Web IDE
+- Insert the SD card into the Pi and power it up. After a few minutes the installation will complete and you can navigate to http://<pi-hostname.local>:3000 in your web browser to view the Web IDE
 
 Follow the setup instructions for the smart plug to get it connected to your wifi. Ensure your Raspberry Pi is connected to your wifi. The tool is configured to use [GPIO 18](https://pinout.xyz/pinout/pin12_gpio18) and a ground wire.
 
