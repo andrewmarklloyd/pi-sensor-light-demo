@@ -41,8 +41,8 @@ if [[ ! -d /home/pi/Adafruit-WebIDE ]]; then
     git clone git://github.com/adafruit/Adafruit-WebIDE.git
     cd Adafruit-WebIDE
     mkdir -p tmp
-    log "npm config set tmp tmp"
     log "npm command: $(which npm)"
+    log "setting npm config tmp dir"
     npm config set tmp tmp
     log "running npm install"
     npm install
@@ -52,12 +52,15 @@ fi
 
 pip3List=$(pip3 list)
 if [[ -z $(echo ${pip3List} | grep -F asyncio) || -z $(echo ${pip3List} | grep -F python-kasa) ]]; then
+    # Ensure packages are installed for both pi and root users
     log "Installing asyncio"
     pip3 install asyncio
+    sudo pip3 install asyncio
     log "Installing python-kasa"
     pip3 install python-kasa
+    sudo pip3 install python-kasa
 fi
 
 cd /home/pi/Adafruit-WebIDE
-log "node command: $(which node)"
+log "Starting the app via server.js"
 node server.js
