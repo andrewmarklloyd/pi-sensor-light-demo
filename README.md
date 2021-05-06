@@ -1,44 +1,41 @@
 # pi-sensor-light-demo
 
-This tool controls a TP-Link smart outlet based on the status of a magnetic sensor. This repo is meant to install the [Adafruit-WebIDE](https://github.com/adafruit/Adafruit-WebIDE) on a Raspberry Pi to make it easier for new programmers to edit code on the Pi. It includes steps to configure a smart outlet, pull and use the Python script using the web IDE and continue to develop applications. The installation instructions are Mac OS specific but can be translated to other operating systems.
+This tool controls a TP-Link smart outlet based on the status of a magnetic sensor. This repo is meant to install the [Adafruit-WebIDE](https://github.com/adafruit/Adafruit-WebIDE) on a Raspberry Pi to make it easier for new programmers to edit code on the Pi-Zero. It includes steps to configure a smart outlet and use a Python script using the web IDE. The installation instructions are Mac OS specific but can be translated to other operating systems.
 
 ---
 ## Installation
 
-The installation process involves two steps:
-- Write the Raspberry Pi operating system to the SD card from a computer and configure startup scripts
-- After inserting the card into the Pi and powering it up, the web IDE is installed and configured
-It is required to configure the Wifi before starting the Pi
-
-## Basic Configuration
-
-Writing Operating System to the SD card
 - Install the [Raspberry Pi Imager](https://www.raspberrypi.org/software/) on your MacOS
 - Insert SD card into the Mac card reader and open the Raspberry Pi Imager application
 - Use the command strokes `command-shift-x` to open the advanced option menu. At the time of this writing, it is required to use the advanced option menu to configure Wifi. See this [blog post](https://www.raspberrypi.org/blog/raspberry-pi-imager-update-to-v1-6/) for more information.
-- Use the `Configure Wifi` section to enter your Wifi SSID and password. **Note**: Raspberry Pi Zero only supports 2.4GHz.
+- `**Note**` If you are using Wifi to connect the Pi-Zero to the internet follow this step. If not then skip this step. Use the `Configure Wifi` section to enter your Wifi SSID and password. **Note**: Raspberry Pi Zero only supports 2.4GHz.
 - If configuring more than one Raspberry Pi on a network use the `Set hostname` setting to configure a _unique_ hostname for each Pi
 - Do **not** select "Eject media when finished"
 - Click the `SAVE` button
 - Select the `Raspberry Pi OA (32-bit)` option and the SD card storage options
 - Write the OS to the SD card
-- After the RPi Imager has finished writing to the card open the `terminal` application and run the following commands. This will copy installation scripts to allow the Pi to install and configure the web IDE with no human interaction.
+- After the RPi Imager has finished writing to the card open the `terminal` application and run the following commands. This will copy installation scripts to allow the Pi to install and configure the web IDE automatically.
     ```
+    cd /tmp
     git clone git@github.com:andrewmarklloyd/pi-sensor-light-demo.git
-    cd pi-sensor-light-demo/basic/
+    cd pi-sensor-light-demo/install/
     ./configure-boot-drive.sh
     ```
 - At this point the SD card is fully configured and can be safely ejected
 
-Powering up the Pi
 - Insert the SD card into the Pi and power it up. After a few minutes the installation will complete and you can navigate to http://<pi-hostname.local>:3000 in your web browser to view the Web IDE
 
-Follow the setup instructions for the smart plug to get it connected to your wifi. Ensure your Raspberry Pi is connected to your wifi. The tool is configured to use [GPIO 18](https://pinout.xyz/pinout/pin12_gpio18) and a ground wire.
+## Configuring the Smart Outlet
 
+On your smartphone download the `Kasa Smart` app.
+- [Android](https://play.google.com/store/apps/details?id=com.tplink.kasa_android&hl=en_US&gl=US)
+- [iPhone](https://apps.apple.com/us/app/kasa-smart/id1034035493)
 
-## Advanced Configuration
+Follow the setup instructions in the app to connect the smart outlet to Wifi. **Note** the Kasa Smart Plug requires a 2.4Ghz WPA2 password protected Wifi network.
 
-This section is a work in progress and will be geared towards an `ssh` based installation.
+## Connecting the Sensor 
+
+Connect one jumper wire to [GPIO 18](https://pinout.xyz/pinout/pin12_gpio18) and the other to a ground pin.
 
 ---
 ## Required Hardware
@@ -46,3 +43,4 @@ This section is a work in progress and will be geared towards an `ssh` based ins
 - [Raspberry Pi 3](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) but any Raspberry Pi will work
 - [Kasa Smart Plug Mini](https://www.amazon.com/gp/product/B07TXM4MT3/ref=ppx_yo_dt_b_search_asin_image?ie=UTF8&psc=1)
 - [Surface Mount Alarm Magnetic Contact](https://www.amazon.com/gp/product/B00LYCUSBY/ref=ppx_yo_dt_b_search_asin_image?ie=UTF8&psc=1)
+- If using ethernet instead of Wifi: [Ethernet Adapter](https://www.amazon.com/Plugable-Ethernet-Compatible-Raspberry-AX88772A/dp/B00RM3KXAU/ref=sr_1_3?dchild=1&keywords=Pi+Zero+Ethernet&qid=1620264412&sr=8-3)
