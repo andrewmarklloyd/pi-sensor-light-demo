@@ -1,16 +1,17 @@
 #!/bin/bash
 
 
-bootDir="/Volumes/boot"
+bootDir="boot"
+bootVolume="/Volumes/${bootDir}"
 
-cp rc.local ${bootDir}
-cp start-app.sh ${bootDir}
-cp adafruit-webide.service ${bootDir}
+cp rc.local ${bootVolume}
+cp start-app.sh ${bootVolume}
+cp adafruit-webide.service ${bootVolume}
 
-touch ${bootDir}/init-config.txt
+touch ${bootVolume}/init-config.txt
 
 sed -i '' '/exit 0/i\
 # user edited\
-mv /boot/rc.local /etc/\
+mv /${bootDir}/rc.local /etc/\
 \
-' ${bootDir}/firstrun.sh
+' ${bootVolume}/firstrun.sh

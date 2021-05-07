@@ -5,8 +5,10 @@ This tool controls a TP-Link smart outlet based on the status of a magnetic sens
 ---
 ## Installation
 
+- Insert SD card into the Mac card reader
+- Open the `finder` app and change the name of the SD card to `boot`
 - Install the [Raspberry Pi Imager](https://www.raspberrypi.org/software/) on your MacOS
-- Insert SD card into the Mac card reader and open the Raspberry Pi Imager application
+- Open the Raspberry Pi Imager application
 - Use the command strokes `command-shift-x` to open the advanced option menu. At the time of this writing, it is required to use the advanced option menu to configure Wifi. See this [blog post](https://www.raspberrypi.org/blog/raspberry-pi-imager-update-to-v1-6/) for more information.
 - `**Note**` If you are using Wifi to connect the Pi-Zero to the internet follow this step. If not then skip this step. Use the `Configure Wifi` section to enter your Wifi SSID and password. **Note**: Raspberry Pi Zero only supports 2.4GHz.
 - If configuring more than one Raspberry Pi on a network use the `Set hostname` setting to configure a _unique_ hostname for each Pi
@@ -17,7 +19,7 @@ This tool controls a TP-Link smart outlet based on the status of a magnetic sens
 - After the RPi Imager has finished writing to the card open the `terminal` application and run the following commands. This will copy installation scripts to allow the Pi to install and configure the web IDE automatically.
     ```
     cd /tmp
-    git clone git@github.com:andrewmarklloyd/pi-sensor-light-demo.git
+    git clone https://github.com/andrewmarklloyd/pi-sensor-light-demo.git
     cd pi-sensor-light-demo/install/
     ./configure-boot-drive.sh
     ```
