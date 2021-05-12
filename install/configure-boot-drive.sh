@@ -12,6 +12,9 @@ touch ${bootVolume}/init-config.txt
 
 sed -i '' '/exit 0/i\
 # user edited\
-mv /${bootDir}/rc.local /etc/\
+mv /boot/rc.local /etc/\
 \
 ' ${bootVolume}/firstrun.sh
+
+# add to firstrun wpa_supplicant.conf under network
+# scan_ssid=1
