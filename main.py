@@ -44,10 +44,10 @@ while True:
     isOpen = GPIO.input(SENSOR_PIN)
     if (isOpen and (isOpen != oldIsOpen)):
         print("open")
-        asyncio.run(device_on())
+        asyncio.run(device_on(address))
     elif (isOpen != oldIsOpen):
         print("closed")
-        asyncio.run(device_off())
+        asyncio.run(device_off(address))
     time.sleep(1)
 
 
