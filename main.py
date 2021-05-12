@@ -6,20 +6,24 @@ from os import path
 import os, sys, time, signal
 import RPi.GPIO as GPIO
 
+def setup_device_info():
+    devices = asyncio.run(Discover.discover())
+    for addr, dev in devices.items():
+        if dev.alias == device_name:
+            return addr
 
-device_name = 'name'
-ip_address = 'ip'
-
-async def device_on():
-    device = SmartPlug(ip_address)
+async def device_on(address):
+    device = SmartPlug(address)
     await device.update()
     await device.turn_on()
 
-async def device_off():
-    device = SmartPlug(ip_address)
+async def device_off(address):
+    device = SmartPlug(address)
     await device.update()
     await device.turn_off()
 
+device_name = 'alpha'
+address = setup_device_info()
 
 GPIO.setmode(GPIO.BCM)
 SENSOR_PIN = 18
@@ -45,4 +49,5 @@ while True:
         print("closed")
         asyncio.run(device_off())
     time.sleep(1)
+
 
