@@ -25,7 +25,7 @@ This tool controls a TP-Link smart outlet based on the status of a magnetic sens
     ```
 - At this point the SD card is fully configured and can be safely ejected
 
-- Insert the SD card into the Pi and power it up. After a few minutes the installation will complete and you can navigate to http://<pi-hostname.local>:3000 in your web browser to view the Web IDE
+- Insert the SD card into the Pi and power it up. After a few minutes the installation will complete and you can navigate to http://`hostname`.local:3000 in your web browser to view the Web IDE, using the `hostname` you set when writing the pi.
 
 ## Configuring the Smart Outlet
 
@@ -38,6 +38,10 @@ Follow the setup instructions in the app to connect the smart outlet to Wifi. **
 ## Connecting the Sensor 
 
 Connect one jumper wire to [GPIO 18](https://pinout.xyz/pinout/pin12_gpio18) and the other to a ground pin.
+
+## Running the Application
+
+In the Web IDE, create a new filed named `main.py` and copy [main.py](https://github.com/andrewmarklloyd/pi-sensor-light-demo/blob/main/main.py) into it.
 
 ---
 ## Required Hardware

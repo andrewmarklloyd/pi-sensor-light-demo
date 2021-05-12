@@ -2,3 +2,4 @@ device-ip.txt
 env.sh
 Volumes/
 .DS_Store
+.env
